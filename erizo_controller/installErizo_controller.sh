@@ -14,4 +14,8 @@ cd ../erizoClient/tools
 ./compile.sh
 ./compilefc.sh
 
+cd ../../heliumClient/tools
+./compile.sh
+
+
 echo [erizo_controller] Done, erizo.js compiled

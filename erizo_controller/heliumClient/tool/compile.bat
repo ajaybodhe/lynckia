@@ -1,0 +1,1 @@
+java -jar compiler.jar --js ../src/fileshare.js --js_output_file ../dist/helium.js

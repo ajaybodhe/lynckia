@@ -1,5 +1,6 @@
 var serverUrl = "/";
 var localStream, room;
+var fileShare = {};
 
     function sendChat(){
             var inputBox = document.getElementById("chat_input");
@@ -16,7 +17,8 @@ var localStream, room;
 
 window.onload = function () {
 
-		localStream = Erizo.Stream({audio: true, video: true, data: true});
+	localStream = Erizo.Stream({audio: true, video: true, data: true});
+    Helium.fileShare.call(fileShare);
 
         
     var createToken = function(userName, role, callback) {
@@ -50,6 +52,8 @@ window.onload = function () {
             textBox.value = textBox.value + "\n" + message;
 
         };
+        fileShare.setFileElement(document.getElementById('files'));
+        fileShare.setFileStream(localStream);
 
         localStream.addEventListener("access-accepted", function () {
             
@@ -58,6 +62,8 @@ window.onload = function () {
                     var stream = streams[index];
                     if (localStream.getID() !== stream.getID()) {
                         stream.addEventListener("stream-data",receiveStreamData);
+			//fix me : Nikhil
+                        //stream.addEventListener("stream-data", fileShare.onReceiveFileData);
                         room.subscribe(stream);
                     } 
                 }

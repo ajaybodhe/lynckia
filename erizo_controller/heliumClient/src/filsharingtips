@@ -1,0 +1,7 @@
+make file transfer async:webworker  
+clientid should be 0,1,2 etc 
+change the design patttern for helium.fileshare
+remove unnecesary files from "script src"
+share multiple files at once
+share it with only selected users
+allow to cancel file sharing/receiving

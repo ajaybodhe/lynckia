@@ -1,8 +1,26 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Helium Ink Demo</title>
     <script type="text/javascript" src="erizo.js"></script>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Courgette' rel='stylesheet' type='text/css'>
+	<script src="lib/jquery.js"></script>
+	<script src="lib/bootstrap.min.js"></script>
+	<script src="lib/sfClient.js"></script>
+	<script src="lib/dnd.js"></script>
+	<script src="lib/util.js"></script>
+	<script src="lib/p2p_proto.js"></script>
+	<script src="lib/radio.min.js"></script>
+	<script src="lib/base64.js"></script>
+	<script src="lib/protocol.js"></script>
+
+    <script type="text/javascript" src="erizo.js"></script> 
+    <script type="text/javascript" src="helium.js"></script>   
     <script type="text/javascript" src="script.js"></script>
+    
 </head>
 
 <body>
@@ -14,11 +32,57 @@
 	
 	<div align="right">
     <textarea id="chat_history" rows="15" cols="50">
-
     </textarea>
     <br/>
     <input id="chat_input" type="text"/>
     <button id="send" name="send" onclick="javascript:sendChat();">Send</button>
-	</div>
+    </div>
+    
+    	
+
+   <div class="container">
+  <br/><br/><br/>
+
+    <div class="dragdrop text-pretty" id="dropbox" onclick="$('#files').click()">
+        <canvas id="cnvs" style="height: 0px"></canvas>
+        <div class="textDrag">
+            <img id="logo" src="img/logo.png"/>
+            <span style="font-family: courier;color: #CC3333;font-size: 0.9em;">Alpha</span>
+            <p>
+                <span id='box-text'>Drag & Drop file here</span>
+            </p>
+
+        <span id="progressbar" hidden="true">
+            <progress id="progress" hidden="true" value="0" max="100"></progress>
+            <p id="percent" style="display: inline;"></p>
+            </br>
+            <p id="bandwidthPresenter" style="display: inline;">Download Rate: </p>
+            <p id="rate" style="display: inline;"></p>
+
+        </span><span id="secondDesc"></span>
+            <a target="_blank" href="www.heliumink.com" id="shareURLBox" style="display:none"></a>
+            <span id="countWrapper" style="display: none">Currently in room: <span id="countValue">0</span></span>
+
+            <!--<div id="sharethis">-->
+            <!--<span class='st_sharethis_large' displayText='ShareThis'></span>-->
+            <!--<span class='st_facebook_large' displayText='Facebook'></span>-->
+            <!--<span class='st_twitter_large' displayText='Tweet'></span>-->
+            <!--<span class='st_linkedin_large' displayText='LinkedIn'></span>-->
+            <!--<span class='st_pinterest_large' displayText='Pinterest'></span>-->
+            <!--<span class='st_email_large' displayText='Email'></span>-->
+            <!--</div>-->
+        </div>
+
+        <!--<p class="info">For more info about Sharefest, go to our-->
+        <!--<a href="http://github.com/peer5/sharefest">project page</a></p>-->
+    </div>
+
+    <input onchange="addFiles(this.files)" type="file" id="files" name="files[]" multiple
+           style="height: 20px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px; left: -20px;"/>
+
+</div>
+
 </body>
-</html>
+</html>     
+    
+   

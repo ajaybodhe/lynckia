@@ -1,4 +1,7 @@
 build/
+erizo_controller/heliumClient/build
+extras/basic_example/public/helium.js
+erizo_controller/heliumClient/dist
 lynckia_config.js
 extras/basic_example/node_modules
 extras/basic_example/public/erizo.js
