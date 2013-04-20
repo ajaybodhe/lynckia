@@ -1,0 +1,41 @@
+<html>
+<head>
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+
+document.write("\nuserAgent===>"+ window.navigator.userAgent);
+document.write("<br>");
+document.write("\nappVersion===>"+ window.navigator.appVersion);
+document.write("<br>");
+
+///Chrome\/([\w\W]*?)\./
+//document.write("\nChrome match version =====>"+window.navigator.userAgent.match(/Chrome\/([\d.]*?)\./)[1]);
+document.write("<br>");
+document.write("\nFF match version =====>"+window.navigator.userAgent.match(/Firefox\/([\d.]*?)\./)[1]);
+
+
+try{
+	window.navigator.userAgent.match(/Chrome\/([\d.]*?)\./)[1]
+}catch(e){
+	document.write("Null object");
+}
+
+if(window.navigator.userAgent.match(/Firefox\/([\d.]*?)\./) !=null){
+document.write("Null object in if block");
+}
+
+var str = "For more information, see Chapter 3.4.5.1";
+var re = /(chapter \d+(\.\d)*)/i;
+var found = str.match(re);
+document.write("<br>");
+document.write(found);
+</script>
+
+
+</body>
+
+</html>

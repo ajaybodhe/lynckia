@@ -1,14 +1,24 @@
 <html>
 <head>
-    <title>Lynckia Basic Example</title>
+    <title>Helium Ink Demo</title>
     <script type="text/javascript" src="erizo.js"></script>
     <script type="text/javascript" src="script.js"></script>
 </head>
 
 <body>
 
-	<div id="myVideo" style="width:320px; height: 240px;">
-    </div>
+	<div id="videoTags" align="left">
+		<div id="myVideo" style="width:320px; height: 240px;">
+   		 </div>
+	</div>
+	
+	<div align="right">
+    <textarea id="chat_history" rows="15" cols="50">
 
+    </textarea>
+    <br/>
+    <input id="chat_input" type="text"/>
+    <button id="send" name="send" onclick="javascript:sendChat();">Send</button>
+	</div>
 </body>
 </html>

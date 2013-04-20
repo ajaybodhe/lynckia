@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+
+<body>
+
+<table>
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td><video id="localVideo" width="320" height="240" style="background: url('images/cb.jpg');" autoplay></video></td>
+				</tr>
+				<tr>
+					<td><canvas id="localScreen" height="720" width="1040" style="display: none;"></canvas></td>
+				</tr>
+				<tr>
+					<td><button id="btn" type="button" onclick="myobj.startVideo();">Start video</button></td>
+				</tr>
+				<tr>
+					<td><button id="btn1" type="button" onclick="startVideo();">Connect</button>
+					</td>
+				</tr>
+				<tr>
+					<td><button id="btn2" type="button" onclick="stopVideo();">Stop</button>
+					</td>
+				</tr>
+			</table>	
+
+		</td>
+		<td rowspan="5">
+			<canvas id="remoteScreen" height="600" width="800"></canvas>
+		</td>
+
+	</tr>
+</table>
+<script src="binary.js"></script>
+<script type="text/javascript">
+var socket = new WebSocket('ws://192.168.0.102:1337/');
+socket.binaryType = "blob";
+//var stream = null;
+var client = new BinaryClient('ws://192.168.0.102:9000');
+
+var timer=null;
+var localStream = null;
+var localVideo = document.getElementById('localVideo');
+var localScreen  = document.getElementById('localScreen');
+var remoteScreen  = document.getElementById('remoteScreen');
+var remoteContext = remoteScreen.getContext('2d');
+
+
+
+socket.addEventListener("message", onMessage, false);
+
+
+
+var myobj = (function(){
+  var stream = null;
+
+  onStreamData = function(data){
+        renderToCanvas(data);
+  }
+
+  sendCanvasData = function(){
+      var ctx = localScreen.getContext('2d');
+      //ctx.scale(0.45,0.45);
+      timer = setInterval(
+        function () { 
+          ctx.drawImage(localVideo, 0, 0 , localScreen.width, localScreen.height);
+          /*var imagedata = ctx.getImageData(0, 0,localScreen.width,localScreen.height);
+          var canvaspixelarray = imagedata.data;
+          var canvaspixellen = canvaspixelarray.length;
+          var bytearray = new Uint8Array(canvaspixellen);
+          for (var i=0;i<canvaspixellen;++i) {
+              bytearray[i] = canvaspixelarray[i];
+          }*/
+          //console.log(canvaspixellen + ' ' + bytearray.length );
+          var frame = localScreen.toDataURL('image/jpeg');
+          console.log(frame.length);
+          //stream.write(frame);
+          renderToCanvas(frame);
+          //sendMessage(frame);
+          //console.log(frame);
+          //  sendMessage({type: 'canvasData', canvasData: bytearray });
+
+            /* var imgdata = tempcontext.getImageData(0,0,canvas.width,canvas.height);
+          var imgdatalen = imgdata.data.length;
+          for(var i=8;i<imgdatalen;i++)
+            {
+              imgdata.data[i] = bytearray[i];
+            }
+            console.log(imgdata.data.length); 
+            tempcontext.putImageData(imgdata,0,0);*/
+          }, 50 );
+    }
+
+    
+  return{
+
+    initializeStream : function(){
+      stream = client.createStream({type:'screen'});
+      stream.on('data', onStreamData);
+    },
+
+    startVideo : function(){
+      try { 
+        navigator.webkitGetUserMedia({ video: {mandatory: {chromeMediaSource: 'screen'} }
+          } , successCallback , errorCallback);
+        } catch (e) {
+        navigator.webkitGetUserMedia("video,audio", successCallback, errorCallback);
+       }
+      function successCallback(stream1) {
+            localVideo.src = window.webkitURL.createObjectURL(stream1);
+          localStream = stream1;
+          this.sendCanvasData();
+       }
+
+      function errorCallback(error) {
+           logg('An error occurred: [CODE ' + error.code + ']');
+      }
+      
+    }
+  }
+
+  }());
+
+
+client.on('open',myobj.initializeStream);
+  
+  
+
+function startVideosdf() {
+    
+      try { 
+        navigator.webkitGetUserMedia({ video: {
+                            mandatory: {chromeMediaSource: 'screen'}
+                        }
+        } , successCallback , errorCallback);
+      } catch (e) {
+        navigator.webkitGetUserMedia("video,audio", successCallback, errorCallback);
+    }
+
+      function successCallback(stream) {
+            localVideo.src = window.webkitURL.createObjectURL(stream);
+          localStream = stream;
+          sendCanvasData();
+       }
+
+      function errorCallback(error) {
+           logg('An error occurred: [CODE ' + error.code + ']');
+      }
+    }
+  
+    function sendCanvasDataasdsad(){
+      var ctx = localScreen.getContext('2d');
+      ctx.scale(0.27,0.27);
+      timer = setInterval(
+        function () { 
+          ctx.drawImage(localVideo, 0, 0);
+          /*var imagedata = ctx.getImageData(0, 0,localScreen.width,localScreen.height);
+          var canvaspixelarray = imagedata.data;
+          var canvaspixellen = canvaspixelarray.length;
+          var bytearray = new Uint8Array(canvaspixellen);
+          for (var i=0;i<canvaspixellen;++i) {
+              bytearray[i] = canvaspixelarray[i];
+          }*/
+          //console.log(canvaspixellen + ' ' + bytearray.length );
+          var frame = localScreen.toDataURL();
+          console.log(frame.length);
+          //stream.write(frame);
+          renderToCanvas(frame);
+          //sendMessage(frame);
+          //console.log(frame);
+          //  sendMessage({type: 'canvasData', canvasData: bytearray });
+
+            /* var imgdata = tempcontext.getImageData(0,0,canvas.width,canvas.height);
+          var imgdatalen = imgdata.data.length;
+          for(var i=8;i<imgdatalen;i++)
+            {
+              imgdata.data[i] = bytearray[i];
+            }
+            console.log(imgdata.data.length); 
+            tempcontext.putImageData(imgdata,0,0);*/
+          }, 1000 / 67 );
+    }
+	
+
+  	function onMessage(evt) {
+   	    renderToCanvas(evt.data);
+   	    console.log(evt.data);
+	  }
+
+    var img = new Image();
+    function renderToCanvas(imagedata){
+        
+        img.onload = function () {
+            remoteContext.drawImage(this, 0, 0, remoteScreen.width, remoteScreen.height);
+        }
+        img.src = imagedata;
+    }
+
+  	function sendMessage(data){
+  		socket.send(data);
+  	}
+
+  	function stopVideo() {
+    	localVideo.src = "";
+    	localStream.stop();
+    	if(timer!=null)
+      		clearInterval(timer);
+  	}
+
+  	socket.addEventListener("close", function(event) {
+  		var code = event.code;
+  		var reason = event.reason;
+  		var wasClean = event.wasClean;
+  		console.log(code + ' ' + reason + ' ' + wasClean);
+ 		 // handle close event
+		});
+
+</script>
+
+</body>
+
+</html>
