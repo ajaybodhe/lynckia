@@ -26,6 +26,7 @@ cd $ROOT/erizo_controller
 ./initErizo_controller.sh
 
 cp $ROOT/erizo_controller/erizoClient/dist/erizo.js $EXTRAS/basic_example/public/
+cp $ROOT/erizo_controller/heliumClient/dist/helium.js $EXTRAS/basic_example/public/
 cp $ROOT/nuve/nuveClient/dist/nuve.js $EXTRAS/basic_example/
 
 echo [lynckia] Done, run basic_example/basicServer.js

@@ -1,9 +1,11 @@
 var serverUrl = "/";
 var localStream, room;
+var fileShare = {};
 
 window.onload = function () {
 
-		localStream = Erizo.Stream({audio: true, video: true, data: true});
+	localStream = Erizo.Stream({audio: true, video: true, data: true});
+    Helium.fileShare.call(fileShare);
 
     var createToken = function(userName, role, callback) {
 
@@ -27,12 +29,16 @@ window.onload = function () {
         console.log(token);
         room = Erizo.Room({token: token});
 
+        fileShare.setFileElement(document.getElementById('files'));
+        fileShare.setFileStream(localStream);
+
         localStream.addEventListener("access-accepted", function () {
             
             var subscribeToStreams = function (streams) {
                 for (var index in streams) {
                     var stream = streams[index];
                     if (localStream.getID() !== stream.getID()) {
+                        stream.addEventListener("stream-data", fileShare.onReceiveFileData);
                         room.subscribe(stream);
                     } 
                 }

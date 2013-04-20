@@ -36,7 +36,7 @@ Erizo.Stream = function (spec) {
         return spec.video;
     };
 
-    // Indicates if the stream has video activated
+    // Indicates if the stream has data activated
     that.hasData = function () {
         return spec.data;
     };
